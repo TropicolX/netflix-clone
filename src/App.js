@@ -5,6 +5,8 @@ import requests from "./requests";
 import Banner from "./Banner";
 import Nav from "./Nav";
 
+console.log(process.env.REACT_APP_API_KEY);
+
 function App() {
 	/*
 	const [movie, setMovie] = useState();
