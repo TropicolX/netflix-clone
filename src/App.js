@@ -5,7 +5,13 @@ import requests from "./requests";
 import Banner from "./Banner";
 import Nav from "./Nav";
 
-console.log(process.env.REACT_APP_API_KEY);
+/*
+FEATURES TO ADD
+white border on click
+Add trailer button
+Make logo bigger
+Continue the tutorial on that guys yt to add more features
+*/
 
 function App() {
 	/*

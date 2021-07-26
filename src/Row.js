@@ -3,6 +3,7 @@ import axios from "./axios";
 import "./Row.css";
 import YouTube from "react-youtube";
 import movieTrailer from "movie-trailer";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 // base url for the images
 const base_url = "https://image.tmdb.org/t/p/original/";
@@ -10,6 +11,7 @@ const base_url = "https://image.tmdb.org/t/p/original/";
 const Row = ({ title, fetchUrl, isLargeRow, fetchMovie }) => {
 	const [movies, setMovies] = useState([]);
 	const [trailerUrl, setTrailerUrl] = useState("");
+	const [loading, setLoading] = useState(true);
 
 	// A snippet of code which runs based on a condition/variable
 	useEffect(() => {
@@ -18,7 +20,9 @@ const Row = ({ title, fetchUrl, isLargeRow, fetchMovie }) => {
 			const request = await axios.get(fetchUrl);
 			const results = request.data.results;
 			setMovies(results);
-			return request;
+			return setTimeout(() => {
+				setLoading(false);
+			}, 3000);
 		}
 		fetchData();
 	}, [fetchUrl]);
@@ -48,9 +52,85 @@ const Row = ({ title, fetchUrl, isLargeRow, fetchMovie }) => {
 		}
 	};
 
+	if (loading) {
+		return (
+			<>
+				<SkeletonTheme color="#505050" highlightColor="#818181">
+					<div className="row">
+						<div className="row__title">
+							<Skeleton height={30} width={230} />
+						</div>
+						<div className="row__posters">
+							<div
+								className={`row__poster ${
+									isLargeRow && "row__posterLarge"
+								}`}
+							>
+								<Skeleton
+									height={isLargeRow ? 350 : 100}
+									width={200}
+								/>
+							</div>
+							<div
+								className={`row__poster ${
+									isLargeRow && "row__posterLarge"
+								}`}
+							>
+								<Skeleton
+									height={isLargeRow ? 350 : 100}
+									width={200}
+								/>
+							</div>
+							<div
+								className={`row__poster ${
+									isLargeRow && "row__posterLarge"
+								}`}
+							>
+								<Skeleton
+									height={isLargeRow ? 350 : 100}
+									width={200}
+								/>
+							</div>
+							<div
+								className={`row__poster ${
+									isLargeRow && "row__posterLarge"
+								}`}
+							>
+								<Skeleton
+									height={isLargeRow ? 350 : 100}
+									width={200}
+								/>
+							</div>
+							<div
+								className={`row__poster ${
+									isLargeRow && "row__posterLarge"
+								}`}
+							>
+								<Skeleton
+									height={isLargeRow ? 350 : 100}
+									width={200}
+								/>
+							</div>
+							<div
+								className={`row__poster ${
+									isLargeRow && "row__posterLarge"
+								}`}
+							>
+								<Skeleton
+									height={isLargeRow ? 350 : 100}
+									width={200}
+								/>
+							</div>
+						</div>
+					</div>
+				</SkeletonTheme>
+			</>
+		);
+	}
+
 	return (
 		<div className="row">
-			<h2>{title}</h2>
+			<h2 className="row__title">{title}</h2>
 
 			<div className="row__posters">
 				{/* several row__poster(s) */}
@@ -61,6 +141,7 @@ const Row = ({ title, fetchUrl, isLargeRow, fetchMovie }) => {
 						className={`row__poster ${
 							isLargeRow && "row__posterLarge"
 						}`}
+						loading="lazy"
 						src={`${base_url}${
 							isLargeRow ? movie.poster_path : movie.backdrop_path
 						}`}
